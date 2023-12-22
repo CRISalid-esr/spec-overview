@@ -1,15 +1,17 @@
 <pre class='metadata'>
-Title: Overview of the ResearcherPod specifications
-Shortname: overview
-Level: 1
-Status: LS
-URL: https://mellonscholarlycommunication.github.io/spec-overview
-Editor: Miel Vander Sande, [meemoo - Flemish Institute for Archives](https://meemoo.be), miel.vandersande@meemoo.be
-Editor: Patrick Hochstenbach, [IDLab - Ghent University](https://knows.idlab.ugent.be), patrick.hochstenbach@ugent.be
-Editor: Ruben Dedecker, [IDLab - Ghent University](https://knows.idlab.ugent.be), ruben.dedecker@ugent.be
-Editor: Jeroen Werbrouck, [IDLab - Ghent University](https://knows.idlab.ugent.be), Jeroen.Werbrouck@ugent.be
-Abstract: This document introduces a set of technical reports that facilitate the implementation of a decentralized data exchange ecosystem using Solid.
-Markup Shorthands: markdown yes
+Title : Aperçu des spécifications de ResearcherPod
+Shortname : aperçu
+Level : 1
+Status : LS
+URL : https://mellonscholarlycommunication.github.io/spec-overview
+Editor : Miel Vander Sande, [meemoo - Institut flamand pour les Archives](https://meemoo.be), miel.vandersande@meemoo.be
+Editor : Patrick Hochstenbach, [IDLab - Université de Gand](https://knows.idlab.ugent.be), patrick.hochstenbach@ugent.be
+Editor : Ruben Dedecker, [IDLab - Université de Gand](https://knows.idlab.ugent.be), ruben.dedecker@ugent.be
+Editor : Jeroen Werbrouck, [IDLab - Université de Gand](https://knows.idlab.ugent.be), Jeroen.Werbrouck@ugent.be
+Editor : Ce document introduit une série de rapports techniques facilitant la mise en œuvre d'un écosystème décentralisé d'échange de données utilisant Solid.
+!Translation: David Reymond [IMSIC - Université de Toulon](http://www.univ-tln.fr), david.reymond@univ-tln.fr
+Abstract : Ce document présente un ensemble de rapports techniques qui facilitent la mise en œuvre d'un écosystème décentralisé d'échange de données utilisant Solid.
+Markup Shorthands : markdown yes
 </pre>
 
 <style>
@@ -40,367 +42,361 @@ table th.last {
 }
 </style>
 
-Set of documents {#set}
+Ensemble de documents {#set}
 =======================
 
-This document is one of the specifications produced by the **ResearcherPod** and **ErfgoedPod** projects:
+Ce document fait partie des spécifications produites par les projets **ResearcherPod** et **ErfgoedPod** :
 
-1. [Overview](/spec-overview/) (this document)
+1. [Aperçu](/spec-overview/) (ce document)
 2. [Orchestrator](/spec-orchestrator/) 
 3. [Data Pod](/spec-datapod/)
-4. [Rule language](/spec-rulelanguage/)
-5. [Artifact Lifecycle Event Log](/spec-eventlog/)
+4. [Langage de règles](/spec-rulelanguage/)
+5. [Journal des événements du cycle de vie des artefacts](/spec-eventlog/)
 6. [Notifications](/spec-notifications/)
-7. [Collector](/spec-collector/)
+7. [Collecteur](/spec-collector/)
 
 Introduction {#intro}
 =====================
 
-This document introduces a set of technical reports that facilitate the implementation of a decentralized data exchange ecosystem using [[solid-protocol]].
-The intent is not to establish a network design for shipping data.
-Rather, it should enable (human or machine) agents to make artifacts available in the network, 
-add value to the available artifacts, and exchange messages about these activities.
-Essentially,
-these reports focus on two generic problems common to decentralized Web networks:
+Ce document introduit une série de rapports techniques facilitant la mise en œuvre d'un écosystème décentralisé d'échange de données en utilisant le protocole [[solid-protocol]].
+L'objectif n'est pas d'établir une conception réseau pour la transmission de données.
+Au contraire, il devrait permettre à des agents (humains ou machines) de rendre des artefacts disponibles dans le réseau, 
+d'ajouter de la valeur aux artefacts disponibles et d'échanger des messages sur ces activités.
+Essentiellement, ces rapports se concentrent sur deux problèmes génériques communs aux réseaux Web décentralisés :
 
-- executing and automating business processes involving a distributed set of actors.
-- discovering and collecting information that is distributed over the network.
+- exécuter et automatiser des processus métier impliquant un ensemble distribué d'acteurs.
+- découvrir et collecter des informations distribuées sur le réseau.
 
-This discovery of information that is stored on a decentralized Web can be quite generic. In this project
-there is a particular focus on the discovery of lifecycle events to which the artifacts are subject.
-Examples of such a lifecycle events in the realm of scholarly publication is information about when and where
-articles have been cited, or peer-reviewed, or published in a journal, archived in a web archive.
+La découverte d'informations stockées sur le Web décentralisé peut être assez générique. Dans ce projet, il y a un accent particulier sur la découverte des événements du cycle de vie auxquels les artefacts sont soumis.
+Des exemples de tels événements de cycle de vie dans le domaine de la publication académique sont des informations sur quand et où des articles ont été cités, révisés par des pairs, ou publiés dans une revue, archivés dans une archive Web.
 
-This work aims to complement the [[solid-tr]] with a concrete framework for building a semi-automated decentralized network for a specific use case or domain.
-It is joint output from two aligned projects:
+Ce travail vise à compléter le [[solid-tr]] avec un cadre concret pour la construction d'un réseau décentralisé semi-automatisé pour un cas d'utilisation ou un domaine spécifique.
+Il s'agit d'une production conjointe de deux projets alignés :
 
-- ResearcherPod: a [Ghent University - IDLab](http://idlab.ugent.be) project funded by the [Andrew W. Mellon foundation](https://mellon.org/) that explores an alternative scholarly communication system that is researcher-centric, institution-enabled, and aligned with Decentralized Web concepts and technologies.
-- ErfgoedPod: a collaboration between [Netwerk Digitaal Erfgoed](https://netwerkdigitaalerfgoed.nl), [meemoo - Flemish Institute for Archiving](https://meemoo.be) and [Ghent University - IDLab](http://idlab.ugent.be) to investigate the feasability of applying [Solid](https://solidproject.org/) and Decentralized Web concepts to establish a sustainable exchange network for digital heritage data.
+- ResearcherPod : un projet de [l'Université de Gand - IDLab](http://idlab.ugent.be) financé par la [fondation Andrew W. Mellon](https://mellon.org/) qui explore un système de communication académique alternatif centré sur le chercheur, activé par l'institution et aligné sur les concepts et technologies du Web décentralisé.
+- ErfgoedPod : une collaboration entre [Netwerk Digitaal Erfgoed](https://netwerkdigitaalerfgoed.nl), [meemoo - Institut flamand pour l'archivage](https://meemoo.be) et [l'Université de Gand - IDLab](http://idlab.ugent.be) pour enquêter sur la faisabilité de l'application de [Solid](https://solidproject.org/) et des concepts du Web décentralisé pour établir un réseau d'échange durable pour les données du patrimoine numérique.
 
-Work items {#work-items}
+Éléments de travail {#work-items}
 =====================
 
-The following table provides an overview of all technical reports and subject matter that is being worked on.
-The reports incorporated have been discussed among the project members and are constructed as project deliverables.
-During the course of these projects, the information in these documents may be subject to change, therefore please see each document’s publication status and versions for further details.
-Of course, you are invited to [contribute](https://github.com/MellonScholarlyCommunication/spec-overview/issues) any feedback, comments, or questions you might have.
+Le tableau suivant donne un aperçu de tous les rapports techniques et des sujets sur lesquels nous travaillons.
+Les rapports incorporés ont été discutés parmi les membres du projet et sont construits comme des livrables du projet.
+Au cours de ces projets, les informations dans ces documents peuvent être sujettes à des modifications, veuillez donc consulter le statut de publication et les versions de chaque document pour plus de détails.
+Bien sûr, vous êtes invité à [contribuer](https://github.com/MellonScholarlyCommunication/spec-overview/issues) à tout feedback, commentaire ou question que vous pourriez avoir.
 
 <table>
-    <caption>Technical Reports</caption>
-    <thead>
-        <tr>
-            <th>Work Item</th>
-            <th>Repository</th>
-            <th>Current Stage</th>
-            <th>Next Stage</th>
-            <th>Target</th>
-            <th>Expected Completion</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><a href="/spec-overview/" rel="cito:citesForInformation">This document.</a></td>
-          <td><a href="https://github.com/mellonscholarlycommunication/spec-overview">spec-overview</a></td>
-          <td>Technical Report</td>
-          <td>Technical Report</td>
-          <td>Technical Report</td>
-          <td>Q1 2022</td>
-        </tr>
-        <tr>
-            <td><a href="/spec-orchestrator/" rel="cito:citesForInformation">Specification of the Orchestrator component.</a></td>
-            <td><a href="https://github.com/mellonscholarlycommunication/spec-orchestrator">spec-orchestrator</a></td>
-            <td>Working Draft</td>
-            <td>Draft Technical Report</td>
-            <td>Technical Report</td>
-            <td>Q4 2022</td>
-        </tr>
-        <tr>
-            <td><a href="/spec-datapod/" rel="cito:citesForInformation">Implementation guidelines and additional requirements for Solid data pods.</a></td>
-            <td><a href="https://github.com/mellonscholarlycommunication/spec-datapod">spec-datapod</a></td>
-            <td>Working Draft</td>
-            <td>Draft Technical Report</td>
-            <td>Technical Report</td>
-            <td>Q4 2022</td>
-        </tr>
-        <tr>
-            <td><a href="/spec-rulelanguage/" rel="cito:citesForInformation">Specification of the rule language to create executable business processes.</a></td>
-            <td><a href="https://github.com/mellonscholarlycommunication/spec-rulelanguage">spec-rulelanguage</a></td>
-            <td>Working Draft</td>
-            <td>Draft Technical Report</td>
-            <td>Technical Report</td>
-            <td>Q4 2022</td>
-        </tr>
-        <tr>
-            <td><a href="/spec-eventlog/" rel="cito:citesForInformation">Implementation requirements for the Artifact Lifecycle Event Log.</a></td>
-            <td><a href="https://github.com/mellonscholarlycommunication/spec-datapod">spec-datapod</a></td>
-            <td>Working Draft</td>
-            <td>Draft Technical Report</td>
-            <td>Technical Report</td>
-            <td>Q2 2022</td>
-        </tr>
-        <tr>
-            <td><a href="/spec-notifications/" rel="cito:citesForInformation">Specification of the possible notifications that can be used in the network.</a></td>
-            <td><a href="https://github.com/mellonscholarlycommunication/spec-notifications">spec-notifications</a></td>
-            <td>Draft Technical Report</td>
-            <td>Technical Report</td>
-            <td>Technical Report</td>
-            <td>Q1 2022</td>
-        </tr>
-        <tr>
-            <td><a href="/spec-collector/" rel="cito:citesForInformation">Specification of the Collector component.</a></td>
-            <td><a href="https://github.com/mellonscholarlycommunication/spec-collector">spec-collector</a></td>
-            <td>Working Draft</td>
-            <td>Draft Technical Report</td>
-            <td>Technical Report</td>
-            <td>Q4 2022</td>
-        </tr>
-    </tbody>
+	 <caption>Rapports Techniques</caption>
+	 <thead>
+		  <tr>
+				<th>Élément de travail</th>
+				<th>Dépôt</th>
+				<th>État actuel</th>
+				<th>État suivant</th>
+				<th>Cible</th>
+				<th>Fin prévue</th>
+		  </tr>
+	 </thead>
+	 <tbody>
+		  <tr>
+			 <td><a href="/spec-overview/" rel="cito:citesForInformation">Ce document.</a></td>
+			 <td><a href="https://github.com/mellonscholarlycommunication/spec-overview">spec-overview</a></td>
+			 <td>Rapport technique</td>
+			 <td>Rapport technique</td>
+			 <td>Rapport technique</td>
+			 <td>T1 2022</td>
+		  </tr>
+		  <tr>
+				<td><a href="/spec-orchestrator/" rel="cito:citesForInformation">Spécification du composant Orchestrator.</a></td>
+				<td><a href="https://github.com/mellonscholarlycommunication/spec-orchestrator">spec-orchestrator</a></td>
+				<td>Brouillon de travail</td>
+				<td>Rapport technique provisoire</td>
+				<td>Rapport technique</td>
+				<td>T4 2022</td>
+		  </tr>
+		  <tr>
+				<td><a href="/spec-datapod/" rel="cito:citesForInformation">Directives de mise en œuvre et exigences supplémentaires pour les pods de données Solid.</a></td>
+				<td><a href="https://github.com/mellonscholarlycommunication/spec-datapod">spec-datapod</a></td>
+				<td>Brouillon de travail</td>
+				<td>Rapport technique provisoire</td>
+				<td>Rapport technique</td>
+				<td>T4 2022</td>
+		  </tr>
+		  <tr>
+				<td><a href="/spec-rulelanguage/" rel="cito:citesForInformation">Spécification du langage de règles pour créer des processus métier exécutables.</a></td>
+				<td><a href="https://github.com/mellonscholarlycommunication/spec-rulelanguage">spec-rulelanguage</a></td>
+				<td>Brouillon de travail</td>
+				<td>Rapport technique provisoire</td>
+				<td>Rapport technique</td>
+				<td>T4 2022</td>
+		  </tr>
+		  <tr>
+				<td><a href="/spec-eventlog/" rel="cito:citesForInformation">Exigences de mise en œuvre pour le Journal des événements du cycle de vie des artefacts.</a></td>
+				<td><a href="https://github.com/mellonscholarlycommunication/spec-datapod">spec-datapod</a></td>
+				<td>Brouillon de travail</td>
+				<td>Rapport technique provisoire</td>
+				<td>Rapport technique</td>
+				<td>T2 2022</td>
+		  </tr>
+		  <tr>
+				<td><a href="/spec-notifications/" rel="cito:citesForInformation">Spécification des notifications possibles qui peuvent être utilisées dans le réseau.</a></td>
+				<td><a href="https://github.com/mellonscholarlycommunication/spec-notifications">spec-notifications</a></td>
+				<td>Brouillon de travail</td>
+				<td>Rapport technique</td>
+				<td>Rapport technique</td>
+				<td>T1 2022</td>
+		  </tr>
+		  <tr>
+				<td><a href="/spec-collector/" rel="cito:citesForInformation">Spécification du composant Collector.</a></td>
+				<td><a href="https://github.com/mellonscholarlycommunication/spec-collector">spec-collector</a></td>
+				<td>Brouillon de travail</td>
+				<td>Rapport technique provisoire</td>
+				<td>Rapport technique</td>
+				<td>T4 2022</td>
+		  </tr>
+	 </tbody>
 
-    <tfoot>
-        <tr>
-        <td colspan="6"></td>
-        </tr>
-    </tfoot>
+	 <tfoot>
+		  <tr>
+		  <td colspan="6"></td>
+		  </tr>
+	 </tfoot>
 
 </table>
-
-Terminology {#definitions}
-===========
 
 <figure>
 <img src="./images/terminology.svg" />
 <figcaption>
-Terminology used in the specifications.
+Terminologie utilisée dans les spécifications.
 </figcaption>
 </figure>
 
-The following terms are used across all specifications:
+Les termes suivants sont utilisés dans toutes les spécifications :
 
 : <dfn export>Agent</dfn>
-:: An agent is a person, an organization, or software identified by a [[solid-protocol#uniform-resource-identifier|URI]]; e.g., a WebID denotes an agent [[webid]] (cited from [[solid-protocol]]).
-:: Agents actively participate in the network: they perform actions, are identified by a [[webid]], and addressed through [=notification=].
+:: Un agent est une personne, une organisation ou un logiciel identifié par un [[solid-protocol#uniform-resource-identifier|URI]]; par exemple, un WebID désigne un agent [[webid]] (citée de [[solid-protocol]]).
+:: Les agents participent activement au réseau : ils effectuent des actions, sont identifiés par un [[webid]], et sont adressés via [=notification=].
 
-: <dfn export>Artifact</dfn>
-:: An artifact is a [[solid-protocol#resource|Web resource]] identified by an [[solid-protocol#uniform-resource-identifier|URI]] that serves as the main focus of interaction between [=agents=]. Examples are a digitized image in an archive, the webpage of a scientific publication, a digital representation of a cultural heritage object, or a data set in a repository. 
-:: Artifacts can be atomic or arbitrarily complex. How they are organized is outside the scope of this document and is dependent on the implementing community.
+: <dfn export>Artefact</dfn>
+:: Un artefact est une [[solid-protocol#resource|ressource Web]] identifiée par un [[solid-protocol#uniform-resource-identifier|URI]] qui sert de point focal principal d'interaction entre [=agents=]. Des exemples incluent une image numérisée dans une archive, la page Web d'une publication scientifique, une représentation numérique d'un objet du patrimoine culturel ou un ensemble de données dans un référentiel.
+:: Les artefacts peuvent être atomiques ou arbitrairement complexes. Leur organisation est hors du champ d'application de ce document et dépend de la communauté de développement.
 
 : <dfn export>Notification</dfn>
-:: A notification is a message delivered from one [=agent=] to another using the [[ldn|Linked Data Notifications (LDN)]] protocol.
-:: Notifications are expressed in [[activitystreams-vocabulary|Activity Streams 2.0 (AS2.0)]] and their payload describes an [=activity=].
+:: Une notification est un message livré d'un [=agent=] à un autre en utilisant le protocole [[ldn|Linked Data Notifications (LDN)]].
+:: Les notifications sont exprimées dans [[activitystreams-vocabulary|Activity Streams 2.0 (AS2.0)]] et leur charge utile décrit une [=activité=].
 
-: <dfn export>Activity</dfn>
-:: An activity describes some form of past or present action that is directly or indirectly related to an [=artifact=].
-:: Activities are conform with the [[activitystreams-vocabulary#activities|AS2.0 Activities]].
+: <dfn export>Activité</dfn>
+:: Une activité décrit une forme d'action passée ou présente directement ou indirectement liée à un [=artefact=].
+:: Les activités sont conformes aux [[activitystreams-vocabulary#activities|Activités AS2.0]].
 
-: <dfn export>Value-added service</dfn>
-:: A service that somehow increases the social valuation of an [=artifact=] without modifiying it. 
-:: Examples are getting promoted, getting certification, gettin a good review ...
+: <dfn export>Service à valeur ajoutée</dfn>
+:: Un service qui accroît d'une manière ou d'une autre la valorisation sociale d'un [=artefact=] sans le modifier.
+:: Des exemples incluent la promotion, la certification, l'obtention d'une bonne critique, etc.
 
-: <dfn export>Service Result</dfn>
-:: A service result is any outcome of providing a value-added service for an [=artifact=]. 
-:: Service results can be [[solid-protocol#resource|Web resources]] that are made available at a network address or mentioned inline in an [=activity=] addressed to the [=agent=] owning the [=data node=] where the [=artifact=] is hosted.
+: <dfn export>Résultat de service</dfn>
+:: Un résultat de service est tout résultat de la fourniture d'un service à valeur ajoutée pour un [=artefact=].
+:: Les résultats de service peuvent être des [[solid-protocol#resource|ressources Web]] disponibles à une adresse réseau ou mentionnées en ligne dans une [=activité=] adressée à l'[=agent=] propriétaire du [=nœud de données=] où l'[=artefact=] est hébergé.
 
-: <dfn export>Node</dfn>
-:: A node is the main component in the network. It provides artifacts or artifact-related services to the network, and is able to communicate with other nodes. 
-:: A node is a [[solid-protocol#http-server|HTTP Server]] that hosts two types of resources: an [=inbox=] and a [=Lifecycle Event Log=]. It is also an Linked Data Notifications [[ldn#receiver|Sender]], [[ldn#receiver|Receiver]] and [[ldn#receiver|Consumer]]. 
+: <dfn export>Nœud</dfn>
+:: Un nœud est le composant principal du réseau. Il fournit des artefacts ou des services liés aux artefacts au réseau et peut communiquer avec d'autres nœuds.
+:: Un nœud est un [[solid-protocol#http-server|serveur HTTP]] qui héberge deux types de ressources : une [=boîte de réception=] et un [=Journal des événements du cycle de vie=].
+:: Il est également un [[ldn#receiver|Émetteur]], [[ldn#receiver|Récepteur]] et [[ldn#receiver|Consommateur]] de notifications de données liées.
 
-: <dfn export>Data Node</dfn>
-:: A data node is a [=node=] that hosts [=artifacts=].
+: <dfn export>Nœud de données</dfn>
+:: Un nœud de données est un [=nœud=] qui héberge des [=artefacts=].
 
-: <dfn export>Service Node</dfn>
-:: A service node is a [=node=] that provides value-added services for [=artifacts=] hosted by [=data nodes=], but does not host [=artifacts=] itself. It can host [=service results=].
-:: A service node minimally meets the [=node=] requirements, but can also be a (partial) implementation of the [[solid-protocol]].
-:: Note that when a service node creates a new [=artifact=] as a result of providing a value-added service for an artifact, then this new [=artifact=] can be made available in the network in its own right and can itself become the subject of [=activities=]. At that point, however, the service node must have an associated [=data node=] via which the new [=artifact=] is made available.
+: <dfn export>Nœud de service</dfn>
+:: Un nœud de service est un [=nœud=] qui fournit des services à valeur ajoutée pour des [=artefacts=] hébergés par des [=nœuds de données=], mais n'héberge pas lui-même des [=artefacts=]. Il peut héberger des [=résultats de service=].
+:: Un nœud de service répond au minimum aux exigences du [=nœud=], mais peut également être une implémentation (partielle) du [[solid-protocol]].
+:: Notez que lorsqu'un nœud de service crée un nouveau [=artefact=] en résultat de la fourniture d'un service à valeur ajoutée pour un artefact, ce nouvel [=artefact=] peut être rendu disponible dans le réseau en tant que tel et peut lui-même devenir le sujet d'[=activités=]. À ce moment-là, cependant, le nœud de service doit avoir un [=nœud de données=] associé par lequel le nouveau [=artefact=] est rendu disponible.
 
-: <dfn export>Inbox</dfn>
-:: An inbox is a [[solid-protocol#resource|web resource]] conform with the [[!ldn|Linked Data Notifications specification]]. In case the [=node=] that hosts the inbox is a [=data pod=], this is usually implemented as an [[ldp#ldpc-container|LDP Container]].
-:: [=Agents=] can POST an [=activity=] in order to send information pertaining to an [=artifact=] to another [=agent=], in order to inform the other party or request a service. 
+: <dfn export>Boîte de réception</dfn>
+:: Une boîte de réception est une [[solid-protocol#resource|ressource web]] conforme à la [[!ldn|spécification Linked Data Notifications]]. Dans le cas où le [=nœud=] qui héberge la boîte de réception est un [=pod de données=], celle-ci est généralement mise en œuvre comme un [[ldp#ldpc-container|conteneur LDP]].
+:: Les [=agents=] peuvent POSTER une [=activité=] afin d'envoyer des informations relatives à un [=artefact=] à un autre [=agent=], afin d'informer l'autre partie ou de demander un service.
 
-: <dfn export>Lifecycle Event</dfn>
-:: A life cycle event is an [=activity=] pertaining to an [=artifact=] that impacts the artifact's lifecycle and is made public. It is communicated via a [=notification=] and that the [=node=] sending or receiving the [=notification=] deemed relevant to disclose. 
+: <dfn export>Événement du cycle de vie</dfn>
+:: Un événement du cycle de vie est une [=activité=] relative à un [=artefact=] qui impacte le cycle de vie de l'artefact et qui est rendu public. Il est communiqué via une [=notification=] que le [=nœud=] envoyant ou recevant la [=notification=] juge pertinent de divulguer.
 
-: <dfn export>Lifecycle Event Log</dfn>
-:: A lifecycle event log is an append-only public [[solid-protocol#resource|web resource]] that exposes a series of [=lifecycle events=] related to [=artifacts=] stored by [=data nodes=] and services provided by [=service nodes=].
-:: It constructs a view over an [=inbox=]'s contents that is determined by a [=selector=], allowing a selected subset of [=activities=] (eg. grouped per artifact) to be consumed. A [=node=] is responsible for making the lifecycle event log publicly discoverable.
+: <dfn export>Journal des événements du cycle de vie</dfn>
+:: Un journal des événements du cycle de vie est une [[solid-protocol#resource|ressource web]] publique à ajout seulement qui expose une série d'[=événements du cycle de vie=] liés à des [=artefacts=] stockés par des [=nœuds de données=] et des services fournis par des [=nœuds de service=].
+:: Il construit une vue sur le contenu d'une [=boîte de réception=] qui est déterminée par un [=sélecteur=], permettant de consommer un sous-ensemble sélectionné d'[=activités=] (par exemple, regroupées par artefact). Un [=nœud=] est responsable de rendre le journal des événements du cycle de vie publiquement découvrable.
 
-: <dfn export>Selector</dfn>
-:: A selector is a boolean function that decides whether or not a [=activity=] belongs to the [=lifecycle event log=] or not. 
+: <dfn export>Sélecteur</dfn>
+:: Un sélecteur est une fonction booléenne qui décide si une [=activité=] appartient ou non au [=journal des événements du cycle de vie=] ou non.
 
-: <dfn export>Collector</dfn>
-:: An automated Web application that collects information from [=lifecycle event logs=] hosted by any [=node=].
+: <dfn export>Collecteur</dfn>
+:: Une application Web automatisée qui collecte des informations à partir des [=journaux des événements du cycle de vie=] hébergés par n'importe quel [=nœud=].
 
-The following additional terms are specific to [=data nodes=] that, in addition to meeting the minimal requirements, also implement the [[solid-protocol]]:
+Les termes suivants sont spécifiques aux [=nœuds de données=] qui, en plus de répondre aux exigences minimales, implémentent également le [[solid-protocol]] :
 
 <figure>
+
 <img src="./images/terminology-pod.svg" />
 <figcaption>
-Terminology specific to [=data nodes=] implemented with [[solid-protocol|Solid]].
+Terminologie spécifique aux [=nœuds de données=] implémentés avec [[solid-protocol|Solid]].
 </figcaption>
 </figure>
 
-: <dfn export>Data Pod</dfn>
-:: A data pod is a place for storing documents, with mechanisms for controlling who can access what (cited from [[solid-protocol]]).
-:: A data pod can be used to construct a [=data node=] that is conform to the [[solid-protocol]]. It stores [=artifacts=] that are made available to the network and is a Linked Data Notifications [[ldn#receiver|Receiver]].
+: <dfn export>Pod de données</dfn>
+:: Un pod de données est un espace de stockage de documents, avec des mécanismes permettant de contrôler qui peut accéder à quoi (citée de [[solid-protocol]]).
+:: Un pod de données peut être utilisé pour construire un [=nœud de données=] conforme au [[solid-protocol]]. Il stocke des [=artefacts=] qui sont rendus disponibles au réseau et est un [[ldn#receiver|Récepteur]] de notifications de données liées.
 
-: <dfn export>Data Pod owner</dfn>
-:: An owner is a person or a social entity that is considered to have the rights and responsibilities of a data storage. An owner is identified by a URI, and implicitly has control over all data in a storage. An owner is first set at storage provisioning time and can be changed (cited from [[solid-protocol]]).
-:: A data pod owner is an [=agent=] that is responsible for maintaining the [=data pod=] and its [=artifacts=]. The owner can be identified by its [[webid]] and reached via an [=inbox=]. 
-:: For example: in case the data pod stores scholarly artifacts, the owner is typically an author or contributor to these artifacts. In case the data pod stores digital heritage objects, the owner is typically the institution or the institutional employee that curates and maintains these collections. 
+: <dfn export>Propriétaire du Pod de données</dfn>
+:: Un propriétaire est une personne ou une entité sociale considérée comme ayant les droits et responsabilités d'un stockage de données. Un propriétaire est identifié par un URI et a implicitement le contrôle sur toutes les données dans un stockage. Un propriétaire est défini lors de la provision du stockage et peut être modifié (citée de [[solid-protocol]]).
+:: Un propriétaire de pod de données est un [=agent=] responsable de la maintenance du [=pod de données=] et de ses [=artefacts=]. Le propriétaire peut être identifié par son [[webid]] et contacté via une [=boîte de réception=].
+:: Par exemple : dans le cas où le pod de données stocke des artefacts universitaires, le propriétaire est généralement un auteur ou un contributeur à ces artefacts. Dans le cas où le pod de données stocke des objets du patrimoine numérique, le propriétaire est généralement l'institution ou l'employé institutionnel qui conserve et entretient ces collections.
 
-: <dfn export>Service Node owner</dfn>
-:: A service node owner is the [=agent=] responsible for maintaining the [=service node=] and the service it provides. 
-:: The owner can be identified by its [[webid]] and reached via an [=inbox=]. 
+: <dfn export>Propriétaire du nœud de service</dfn>
+:: Le propriétaire du nœud de service est l'[=agent=] responsable de la maintenance du [=nœud de service=] et du service qu'il fournit.
+:: Le propriétaire peut être identifié par son [[webid]] et contacté via une [=boîte de réception=].
 
-: <dfn export>Dashboard</dfn>
-:: The dashboard is a user-facing Web application that enables an [=agent=] to manually interact with other [=agents=] or [=nodes=] in the network. 
-:: The dashboard is a Linked Data Notifications [[ldn#receiver|Sender]] and [[ldn#receiver|Consumer]]. In case it is used to manage a [=data pod=], it will also be a compliant [[solid-protocol#solid-app|Solid App]] implementation.
+: <dfn export>Tableau de bord</dfn>
+:: Le tableau de bord est une application Web orientée utilisateur qui permet à un [=agent=] d'interagir manuellement avec d'autres [=agents=] ou [=nœuds=] dans le réseau.
+:: Le tableau de bord est un [[ldn#receiver|Émetteur]] et [[ldn#receiver|Consommateur]] de notifications de données liées. S'il est utilisé pour gérer un [=pod de données=], il sera également une implémentation conforme de [[solid-protocol#solid-app|Solid App]].
 
 : <dfn export>Orchestrator</dfn>
-:: The orchestrator is an autonomous Web application that operates on behalf of an agent [=agent=] and has access to a [=data pod=]. It interprets and executes business rules described in a [=rulebook=].
-:: The orchestrator is also a Linked Data Notifications [[ldn#receiver|Sender]] and [[ldn#receiver|Consumer]].
+:: L'orchestrateur est une application Web autonome qui opère au nom d'un [=agent=] et a accès à un [=pod de données=]. Il interprète et exécute des règles métier décrites dans un [=livre de règles=].
+:: L'orchestrateur est également un [[ldn#receiver|Émetteur]] et [[ldn#receiver|Consommateur]] de notifications de données liées.
 
-: <dfn export>Rulebook</dfn>
-:: A set of machine-readable business rules that instruct the [=orchestrator=] on what actions to take in response to incoming [=notifications=].
+: <dfn export>Livre de règles</dfn>
+:: Un ensemble de règles métier lisibles par machine qui instruit l'[=orchestrateur=] sur les actions à prendre en réponse aux [=notifications=] entrantes.
 
-Agents, Artefacts and Service Results {#agents-arte}
+Agents, Artéfacts et Résultats de service {#agents-arte}
 =======================================================
 
-Artifacts are the main focus of this decentralized network design. 
-They are pieces of data (eg. a file, a document, ...) produced by the Agents that participate in the network and hosted on [=data nodes=]
-The goal is, however, not to enable the exchange the artifacts, but rather to facilitate discourse about them.
+Les artefacts sont le principal point d'attention de cette conception de réseau décentralisé.
+Ce sont des morceaux de données (par exemple, un fichier, un document, ...) produits par les agents qui participent au réseau et hébergés sur les [=nœuds de données=].
+L'objectif n'est cependant pas de permettre l'échange d'artefacts, mais plutôt de faciliter le discours à leur sujet.
 
-Artifacts hold potential value in the domain in which the Agents operate.
-Over the network, Agents can send messages to other Agents to request value-added services. 
-Each executed service increases the value-chain of an Artifact, which is published in an event log. 
-The contents of an artifact are considered out-of-scope, and therefore, they are viewed as black-boxes to the network's design.
+Les artefacts ont une valeur potentielle dans le domaine dans lequel les agents opèrent.
+Sur le réseau, les agents peuvent envoyer des messages à d'autres agents pour demander des services à valeur ajoutée.
+Chaque service exécuté augmente la chaîne de valeur d'un artefact, qui est publiée dans un journal d'événements.
+Le contenu d'un artefact est considéré comme étant hors de portée, et donc, ils sont considérés comme des boîtes noires pour la conception du réseau.
 
-Services are performed by [=service nodes=] and can produce a [=Service Result=] after execution.
-Service results are hosted on [=service nodes=] and provide metadata about the service run.
-The difference with artifacts is that service results lack a relevant value-chain.
-If interesting, a service result can be promoted to artifact, 
-eg. when a review of a document itself becomes subject to review.
-In that case, however, the service node takes up the role of [=data node=] as well. 
+Les services sont effectués par des [=nœuds de service=] et peuvent produire un [=Résultat de service=] après exécution.
+Les résultats de service sont hébergés sur des [=nœuds de service=] et fournissent des métadonnées sur l'exécution du service.
+La différence avec les artefacts est que les résultats de service manquent d'une chaîne de valeur pertinente.
+Si nécessaire, un résultat de service peut être promu en artefact,
+par exemple, lorsque la revue d'un document devient elle-même sujet de revue.
+Dans ce cas, cependant, le nœud de service prend le rôle de [=nœud de données=] également.
 
-The following example illustrates a basic interaction for which this network design can be applied.
+L'exemple suivant illustre une interaction de base pour laquelle cette conception de réseau peut être appliquée.
 
-1. An Agent called Alice creates an artifact: a document. The document is stored in Alice's Pod.
-2. Alice offers the artifact to a Reviewing Service (a Service Node and Agent) in order to review it.
-3. The Reviewing Service performs the service and produces a Service Result.
-4. The Reviewing Service informs Alice that the Service was performed.
-5. The value-chain of the document is enhanced with a reviewed event.
+1. Un agent appelé Alice crée un artefact : un document. Le document est stocké dans le Pod d'Alice.
+2. Alice propose l'artefact à un service de revue (un nœud de service et un agent) afin de le faire examiner.
+3. Le service de revue effectue le service et produit un résultat de service.
+4. Le service de revue informe Alice que le service a été effectué.
+5. La chaîne de valeur du document est améliorée avec un événement examiné.
 
 <figure>
   <img src="./images/flow.svg" />
   <figcaption>
-  example workflow.
+  Exemple de flux de travail.
   </figcaption>
 </figure>
 
-Dashboard and Orchestrator {#differences}
+Tableau de bord et Orchestrator {#differences}
 =======================================================
 
-In a Solid implementation of these specifications, 
-two software applications interact directly with the [=Data Pod=] with different privileges: the [=Orchestrator=] and the [=Dashboard=]. 
-While these applications could overlap or might not be required at all (in
-some use cases), in our specifications they are treated as separate entities to help the discussion. 
-Some reasons why these applications could be treated as separate entities:
+Dans une implémentation Solid de ces spécifications,
+deux applications logicielles interagissent directement avec le [=Pod de données=] avec des privilèges différents : l'[=Orchestrator=] et le [=Tableau de bord=].
+Bien que ces applications puissent se chevaucher ou ne pas être nécessaires du tout (dans
+certains cas d'utilisation), dans nos spécifications, elles sont traitées comme des entités distinctes pour faciliter la discussion.
+Certaines raisons pour lesquelles ces applications pourraient être traitées comme des entités distinctes :
 
-- privileges needed to access the [=data pod=]
-- requirements needed to receive direct feedback from an [=agent=]
-- requirements needed to permanently be **online**
-- requirements needed to correctly implement [=notifications=] and [=rulebooks=]
+- privilèges nécessaires pour accéder au [=pod de données=]
+- exigences nécessaires pour recevoir des commentaires directs d'un [=agent=]
+- exigences nécessaires pour être **en ligne** en permanence
+- exigences nécessaires pour implémenter correctement les [=notifications=] et les [=livres de règles=]
 
-Typically, the [=Dashboard=] runs in a browser and responds to feedback from an [=agent=].
-It can be in an online or offline modus, running on the computer of the [=agent=] in one of the browser tabs.
-The [=Orchestrator=], however, runs as a *always-on* background-process or remote Web service. 
-Both can read the [=Inbox=] of the [=Data Pod=] and append to the [=Lifecycle Event Log=]. Both communicate with the network using the [=Notifications=].
-Only the [=Orchestrator=] is guided by a [=Rulebook=] and operates with little human intervention.
+Typiquement, le [=Tableau de bord=] s'exécute dans un navigateur et répond aux commentaires d'un [=agent=].
+Il peut être en mode en ligne ou hors ligne, s'exécutant sur l'ordinateur de l'[=agent=] dans l'un des onglets du navigateur.
+L'[=Orchestrator=], cependant, s'exécute en tant que processus en arrière-plan *toujours actif* ou en tant que service Web distant.
+Les deux peuvent lire l'[=Inbox=] du [=Pod de données=] et ajouter au [=Journal d'événements du cycle de vie=]. Les deux communiquent avec le réseau en utilisant les [=Notifications=].
+Seul l'[=Orchestrator=] est guidé par un [=Livre de règles=] et fonctionne avec peu d'intervention humaine.
 
-The network below demonstrates the CRUD privileges imagined for the different [=agents=] in this document. 
-The first network demonstrates a typical Solid setup where the [=dashboard=] is a single page application that has direct access
-to the [=data pod=]. The [=Orchestrator=] could be a process that is part of the [=dashboard=], 
-but is runs here as a separate network service. 
-It is always online and works on behalf of the [=data pod owner=]. 
-Finally, there can be other applications in the 
-network (indicated by Something) that can read data from the [=data pod=] or send [=notifications=] to
-the [=data pod=], but without requiring direct privileges to change artifacts on the [=data pod=].
+Le réseau ci-dessous démontre les privilèges CRUD imaginés pour les différents [=agents=] dans ce document.
+Le premier réseau démontre une configuration Solid typique où le [=tableau de bord=] est une application monopage qui a un accès direct
+au [=pod de données=]. L'[=Orchestrator=] pourrait être un processus faisant partie du [=tableau de bord=],
+mais s'exécute ici en tant que service réseau distinct.
+Il est toujours en ligne et fonctionne au nom du [=propriétaire du pod de données=].
+Enfin, il peut y avoir d'autres applications dans le
+réseau (indiqué par Something) qui peuvent lire des données du [=pod de données=] ou envoyer des [=notifications=] au [=pod de données=], mais sans nécessiter de privilèges directs pour modifier des artefacts sur le [=pod de données=].
 
 <figure>
   <img src="images/mellon-crud-app.svg" width="80%">
   <figcaption>
-  CRUD operations in case the [=Dashboard=] is single-page application and [=Orchestrator=] a background task
+  Opérations CRUD dans le cas où le [=tableau de bord=] est une application monopage et [=Orchestrator=] une tâche en arrière-plan
   </figcaption>
 </figure>
 
-The second network demonstrates a more classic setup with a browser [=Dashboard=] controlled by a server application which uses a
-[=data pod=] as backend storage.
+Le deuxième réseau montre une configuration plus classique avec un [=Tableau de bord=] de navigateur contrôlé par une application serveur qui utilise un
+[=pod de données=] comme stockage backend.
 
 <figure>
   <img src="images/mellon-crud.svg" width="80%"></div>
   <figcaption>
-  CRUD operations in case the [=dashboard=] and a [=service node=] (which also runs to an 
-  [=Orchestrator=] component) is a classic client/server application
+  Opérations CRUD dans le cas où le [=tableau de bord=] et un [=nœud de service=] (qui s'exécute également vers un
+  composant [=Orchestrator=]) est une application client/serveur classique
   </figcaption>
 </figure>
 
-Communication between Data Pods and domain-specific networks {#domain-specific-networks}
+Communication entre les Pods de données et les réseaux spécifiques au domaine {#domain-specific-networks}
 ============================================================
 
-## Communication between Data Pod and Scholarly Community network ## {#scholarly-comm}
+## Communication entre le Pod de données et le réseau de la communauté savante ## {#scholarly-comm}
 
-[=Notifications=] can be sent from the researcher environment to [=Service Node=] environments.
-For instance, in case of a request to review an artifact that resides in the [=Data Pod=], an
-appropriate [=notification=]] can be sent to a review [=Service Node=]. The [=Service Node=] can respond,
-for example, accepting or rejecting the review request, and, in the latter case, to relay
-the result of the review.
+Les [=notifications=] peuvent être envoyées de l'environnement de recherche aux environnements des [=nœuds de service=].
+Par exemple, en cas de demande d'examen d'un artefact qui réside dans le [=pod de données=], une
+[=notification=] appropriée peut être envoyée à un nœud de service de revue. Le nœud de service peut répondre,
+par exemple, en acceptant ou en refusant la demande d'examen, et, dans ce dernier cas, relayer
+le résultat de l'examen.
 
-The [=Orchestrator=] sends notifications in response to triggers that result from the execution of
-the rulebook is associated with the [=Data Pod=]. The [=Orchestrator=]
-receives notifications in response to the ones it sent. The [=Orchestrator=] selectively records information
-contained in both outgoing and incoming notifications in the [=Lifecycle Event Log=].
+L'[=Orchestrator=] envoie des notifications en réponse à des déclencheurs résultant de l'exécution du
+livre de règles associé au [=pod de données=]. L'[=Orchestrator=]
+reçoit des notifications en réponse à celles qu'il a envoyées. L'[=Orchestrator=] enregistre sélectivement les informations
+contenues dans les notifications sortantes et entrantes dans le [=Journal d'événements du cycle de vie=].
 
-The [=notifications=] are regarded as a high-level approach to automatically coordinate the distributed
-execution of the crucial functions of scholarly communication. The notifications merely ensure that the
-respective functions are in effect executed as prescribed by the rulebook, but do not attempt to
-automate the actual fulfillment of the function itself. For instance, when an `Offer` is sent to a Review Service
-we don't envision that message contains all the steps to fully automate the submission process.
-It could contain enough metadata to enable simple workflows. In general out of band communication
-could be needed to perform all required steps.
+Les [=notifications=] sont considérées comme une approche de haut niveau pour coordonner automatiquement l'exécution distribuée des fonctions cruciales de la communication savante. Les notifications garantissent simplement que les
+fonctions respectives sont effectivement exécutées conformément au livre de règles, mais n'essaient pas d'automatiser
+l'accomplissement réel de la fonction elle-même. Par exemple, lorsqu'une `Offre` est envoyée à un service de revue,
+nous n'envisageons pas que le message contienne toutes les étapes pour automatiser complètement le processus de soumission.
+Il pourrait contenir suffisamment de métadonnées pour permettre des flux de travail simples. En général, une communication
+hors bande pourrait être nécessaire pour effectuer toutes les étapes requises.
 
-## Communication between Data Pod and Cultural Heritage network ## {#cultural-heritage}
+## Communication entre le Pod de données et le réseau du patrimoine culturel ## {#cultural-heritage}
 
-In the cultural heritage domain, 
-institutions that manage collections, such as museums or libraries, and
-service providers, such as object registrars, user-facing portals or digital archives,
-participate in a joint network with the goal of sharing digital metadata and objects effectively.
-Institutions maintain a [=Data Pod=] as primary exchange hub for metadata about their collections.
-End-user portals aims to collect thematic subsets from this selection of pods.
-In between, there is a layer of facilitating services that 
+Dans le domaine du patrimoine culturel,
+les institutions qui gèrent des collections, telles que des musées ou des bibliothèques, et
+les fournisseurs de services, tels que des conservateurs d'objets, des portails orientés utilisateur ou des archives numériques,
+participent à un réseau commun dans le but de partager efficacement des métadonnées numériques et des objets.
+Les institutions maintiennent un [=pod de données=] comme point d'échange principal pour les métadonnées sur leurs collections.
+Les portails destinés aux utilisateurs finaux visent à collecter des sous-ensembles thématiques de cette sélection de pods.
+Entre eux, il y a une couche de services facilitants qui
 
-- make data findable for portals and other applications, such as indexing metadata for search or disseminating collection information to other network members;
-- provide value-added services to institutions like enriching metadata by adding links to other collections, or doing digital preservation.
+- rendent les données trouvables pour les portails et autres applications, tels que l'indexation des métadonnées pour la recherche ou la diffusion d'informations sur la collection à d'autres membres du réseau;
+- fournissent des services à valeur ajoutée aux institutions, tels que l'enrichissement des métadonnées en ajoutant des liens vers d'autres collections ou la réalisation de la préservation numérique.
 
-Institutions use notifications to request services from the designated [=Service Node=], eg. they can `Offer` a dataset to a enrichment service. 
-In addition, notifications are used by all parties to inform each other about relevant changes.
-A [=Service Node=] can respond with, for example, an accept or reject of the request for digital preservation, or simply take note.
-The result of a service, ie. the object is preserved digitally for the long term, is a new piece of metadata that augments the object's lifecycle.
-This event can be communicated with a new notification to the institution that made the requested or other interested [=agents=] in the network. 
+Les institutions utilisent des notifications pour demander des services auprès du [=nœud de service=] désigné, par exemple, elles peuvent `Offrir` un ensemble de données à un service d'enrichissement.
+De plus, les notifications sont utilisées par toutes les parties pour s'informer mutuellement des changements pertinents.
+Un [=nœud de service=] peut répondre, par exemple, en acceptant ou en refusant la demande de préservation numérique, ou simplement en prenant note.
+Le résultat d'un service, c'est-à-dire que l'objet est préservé numériquement à long terme, est une nouvelle pièce de métadonnées qui augmente le cycle de vie de l'objet.
+Cet événement peut être communiqué avec une nouvelle notification à l'institution qui a fait la demande ou à d'autres [=agents=] intéressés dans le réseau.
 
-Driven by a mix of policy derived from institutional and cooperation requirements,
-institutions follow processes that dictate when to request certain services, contact other [=agents=] and in what order.
-These processes can be declared in a [=rulebook=] and executed in an automated manner by an [=Orchestrator=].
+Motivées par un mélange de politiques dérivées des exigences institutionnelles et de coopération,
+les institutions suivent des processus qui dictent quand demander certains services, contacter d'autres [=agents=] et dans quel ordre.
+Ces processus peuvent être déclarés dans un [=livre de règles=] et exécutés de manière automatisée par un [=Orchestrator=].
 
-Services that help the chasm between the [=Data Pod=] and data consuming portals, can maintain a [=Data Pod=] of their own, 
-for storing and exposing derivatives to upper layers in the network. 
-For instance, 
-a [=Service Node=] that collects datasets from institution's [=Data Pods=] to generate dataset summaries and enrichments can store these results.
-In turn, an end-user portal can use the data of this [=Service Node=] to find [=Data Pods=] with relevant data. 
+Les services qui comblent le fossé entre le [=pod de données=] et les portails de consommation de données peuvent maintenir leur propre [=pod de données=],
+pour stocker et exposer des dérivés aux couches supérieures du réseau.
+Par exemple,
+un [=nœud de service=] qui collecte des ensembles de données des [=pods de données=] des institutions pour générer des résumés et des enrichissements d'ensembles de données peut stocker ces résultats.
+À son tour, un portail d'utilisateur final peut utiliser les données de ce [=nœud de service=] pour trouver des [=pods de données=] avec des données pertinentes.
 
-Acknowledgement {#acknowledgement}
+Remerciements {#acknowledgement}
 ============================================================
 
-We thank Herbert Van de Sompel, [DANS + Ghent University](https://dans.knaw.nl/nl/), hvdsomp@gmail.com
-for the valuable input during this project.
+Nous remercions Herbert Van de Sompel, [DANS + Université de Gand](https://dans.knaw.nl/nl/), hvdsomp@gmail.com
+pour sa précieuse contribution tout au long de ce projet.
 
 <pre class=biblio>
 {
@@ -412,9 +408,9 @@ for the valuable input during this project.
 			"Kjetil Kjernsmo"
 		],
 		"href": "https://solidproject.org/TR/protocol",
-		"title": "The Solid Protocol",
-		"status": "Published",
-		"publisher": "Solid project",
+		"title": "Le Protocole Solid",
+		"status": "Publié",
+		"publisher": "Projet Solid",
 		"deliveredBy": [
 			"https://www.w3.org/community/solid/"
 		]
@@ -427,8 +423,8 @@ for the valuable input during this project.
 		],
 		"href": "https://dvcs.w3.org/hg/WebID/raw-file/tip/spec/identity-respec.html",
 		"title": "WebID 1.0",
-		"status": "Editor’s Draft",
-		"publisher": "WebID Community Group",
+		"status": "Brouillon de l'éditeur",
+		"publisher": "Groupe de la communauté WebID",
 		"deliveredBy": [
 			"https://www.w3.org/community/webid/"
 		]
@@ -441,16 +437,16 @@ for the valuable input during this project.
 		],
 		"href": "https://solid.github.io/authentication-panel/solid-oidc/",
 		"title": "SOLID-OIDC",
-		"status": "Editor’s Draft",
-		"publisher": "Solid project",
+		"status": "Brouillon de l'éditeur",
+		"publisher": "Projet Solid",
 		"deliveredBy": [
 			"https://www.w3.org/community/solid/"
 		]
 	},
   "solid-tr": {
 		"href": "https://solidproject.org/TR/",
-		"title": "Solid Technical Reports",
-		"publisher": "Solid project",
+		"title": "Rapports Techniques Solid",
+		"publisher": "Projet Solid",
 		"deliveredBy": [
 			"https://www.w3.org/community/solid/"
 		]
